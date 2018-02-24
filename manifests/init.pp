@@ -42,7 +42,19 @@
 #
 # Copyright 2018 Your name here, unless otherwise noted.
 #
-class apache {
-
-
+class apache
+(
+$usr = $apache::params::usr,
+$grp = $apache::params::grp,
+$package2 = $apache::params::package2,
+$service2 = $apache::params::service2,
+)inherits apache::params
+ {
+include apache::packageinstallation
+include apache::servicerun
+include apache::usercreation
+Class['apache::usercreation'] ->
+	Class['apache::packageinstallation'] ->
+		Class['apache::servicerun']
 }
+include apache
